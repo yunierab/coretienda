@@ -1,13 +1,18 @@
 package edu.tienda.core.controllers;
 
 import edu.tienda.core.domain.Cliente;
+import edu.tienda.core.exceptions.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@RequestMapping("/clientes")
 public class ClienteRestController
 {
     private List<Cliente>clientes = new ArrayList<>(Arrays.asList
@@ -16,61 +21,68 @@ public class ClienteRestController
                     new Cliente("ramona","123","Ramona")));
 
     //Obtenemos el listado de clientes
-    @GetMapping("/clientes")
-    public List<Cliente> getClientes()
+    @GetMapping
+    public ResponseEntity<?> getClientes()
     {
-        return clientes;
+        return ResponseEntity.ok(clientes);
     }
 
     //Obtenemos un cliente dado su username
-    @GetMapping("/clientes/{username}")
-    public Cliente getCliente(@PathVariable String username)
+    @GetMapping("/{username}")
+    public ResponseEntity<?> getCliente(@PathVariable String username)
     {
         for (Cliente c: clientes)
         {
             if(c.getUsername().equalsIgnoreCase(username))
             {
-                return c;
+                return ResponseEntity.ok(c);
             }
         }
-        return null;
+        throw  new ResourceNotFoundException("Cliente no encontrado");
     }
 
     //Adicionamos un nuevo cliente
-    @PostMapping("/clientes")
-    public Cliente altaCliente(@RequestBody Cliente cliente)
+    @PostMapping
+    public ResponseEntity<?> altaCliente(@RequestBody Cliente cliente)
     {
         clientes.add(cliente);
-        return cliente;
+
+        //Obteniendo URL de servicio
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{username}")
+                .buildAndExpand(cliente.getUsername())
+                .toUri();
+
+        //Se retorna el path donde se puede ver el recurso creado mas el propio cliente creado
+        return ResponseEntity.created(location).body(cliente);
     }
 
     //Modificamos un cliente
-    @PutMapping("/clientes")
-    public Cliente modificacionCliente(@RequestBody Cliente cliente)
+    @PutMapping
+    public ResponseEntity<?>  modificacionCliente(@RequestBody Cliente cliente)
     {
         //Busco el cliente por su username
-        Cliente clienteEncontrado = getCliente(cliente.getUsername());
+        Cliente clienteEncontrado = clientes.stream().filter(cli -> cli.getUsername().equalsIgnoreCase(cliente.getUsername())).findFirst().orElseThrow();
 
         //Actualizo los datos del cliente encontrado
-        if(clienteEncontrado!=null)
-        {
-            clienteEncontrado.setNombre(cliente.getNombre());
-            clienteEncontrado.setPasword(cliente.getPasword());
-        }
-        return clienteEncontrado;
+
+        clienteEncontrado.setNombre(cliente.getNombre());
+        clienteEncontrado.setPasword(cliente.getPasword());
+
+        return ResponseEntity.ok(clienteEncontrado);
     }
 
     //Eliminamos un cliente
-    @DeleteMapping("/clientes/{username}")
-    public void eliminarCliente(@PathVariable String username)
+    @DeleteMapping("/{username}")
+    public ResponseEntity eliminarCliente(@PathVariable String username)
     {
         //Busco el cliente por su username
-        Cliente clienteEncontrado = getCliente(username);
+        Cliente clienteEncontrado = clientes.stream().filter(cli -> cli.getUsername().equalsIgnoreCase(username)).findFirst().orElseThrow();
 
         //Elimino el cliente encontrado
-        if(clienteEncontrado!=null)
-        {
-            clientes.remove(clienteEncontrado);
-        }
+        clientes.remove(clienteEncontrado);
+
+        return ResponseEntity.noContent().build();
     }
 }
