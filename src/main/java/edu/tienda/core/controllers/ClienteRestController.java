@@ -10,6 +10,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
@@ -75,14 +76,29 @@ public class ClienteRestController
 
     //Eliminamos un cliente
     @DeleteMapping("/{username}")
-    public ResponseEntity eliminarCliente(@PathVariable String username)
-    {
+    public ResponseEntity<?> eliminarCliente(@PathVariable String username)
+    {  /*
         //Busco el cliente por su username
         Cliente clienteEncontrado = clientes.stream().filter(cli -> cli.getUsername().equalsIgnoreCase(username)).findFirst().orElseThrow();
 
         //Elimino el cliente encontrado
-        clientes.remove(clienteEncontrado);
+        if(clienteEncontrado != null){
+            clientes.remove(clienteEncontrado);
+		}
 
         return ResponseEntity.noContent().build();
+        */
+    	
+    	Optional<Cliente> clienteOpt = clientes.stream()
+    		    .filter(cli -> cli.getUsername().equalsIgnoreCase(username))
+    		    .findFirst();
+
+    		if (clienteOpt.isEmpty()) {
+    		    return ResponseEntity.notFound().build();
+    		}
+
+    		clientes.remove(clienteOpt.get());
+
+    		return ResponseEntity.noContent().build();
     }
 }
