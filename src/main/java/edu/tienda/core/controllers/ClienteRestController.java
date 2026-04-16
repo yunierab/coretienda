@@ -1,6 +1,7 @@
 package edu.tienda.core.controllers;
 
 import edu.tienda.core.domain.Cliente;
+import edu.tienda.core.exceptions.BadRequestException;
 import edu.tienda.core.exceptions.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,14 +33,16 @@ public class ClienteRestController
     @GetMapping("/{username}")
     public ResponseEntity<?> getCliente(@PathVariable String username)
     {
-        for (Cliente c: clientes)
-        {
-            if(c.getUsername().equalsIgnoreCase(username))
-            {
-                return ResponseEntity.ok(c);
-            }
-        }
-        throw  new ResourceNotFoundException("Cliente no encontrado");
+    	if(username.length() < 3) {
+    		throw new BadRequestException("El nombre del cliente debe tener como mínimo 3 caracteres");
+    	}
+    	
+    	return clientes.stream()
+    			       .filter(cli -> cli.getUsername().equalsIgnoreCase(username))
+    			       .findFirst()
+    			       .map(ResponseEntity::ok)
+    			       .orElseThrow(() -> new ResourceNotFoundException("Cliente " + username + " no encontrado"));
+    	
     }
 
     //Adicionamos un nuevo cliente
