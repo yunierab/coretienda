@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.tienda.core.configurations.ConfigurationParameters;
 import edu.tienda.core.domain.Producto;
 import edu.tienda.core.services.IProductoService;
 
@@ -21,8 +22,12 @@ public class ProductoRestController {
 	@Qualifier("JSON")  //inyectamos el servicio por su alias
 	private IProductoService productoServices;
 	
+	@Autowired
+	private ConfigurationParameters config;
+	
 	@GetMapping
 	public ResponseEntity<?> getProductos() {
+		//System.out.println(config.toString());
 		List<Producto> productos = productoServices.getProductos();
 		return ResponseEntity.ok(productos);
 	}
