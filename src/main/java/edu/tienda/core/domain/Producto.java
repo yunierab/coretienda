@@ -1,16 +1,21 @@
 package edu.tienda.core.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Producto {
 
 	private Integer id;
 	private String nombre;
 	private Double precio;
 	private Integer stock;
-
-	public Producto() {
-		super();
-	}
-
+	
+	/*
 	public Producto(Integer id, String nombre, Double precio, Integer stock) {
 		super();
 		this.id = id;
@@ -50,5 +55,6 @@ public class Producto {
 	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
+	*/
 
 }

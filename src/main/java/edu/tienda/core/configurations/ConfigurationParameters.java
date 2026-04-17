@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "app") //Debido a que las propiedas de nosotros tienen el prefijo "app"
+@ConfigurationProperties(prefix = "app")//Debido a que las propiedas de nosotros tienen el prefijo "app"
 public class ConfigurationParameters {
 	
 	private String nombre;
@@ -37,12 +37,11 @@ public class ConfigurationParameters {
 	public void setAutor(String autor) {
 		this.autor = autor;
 	}
+	
 	@Override
 	public String toString() {
 		return "ConfigurationParameters [nombre=" + nombre + ", lenguaje=" + lenguaje + ", pais=" + pais + ", autor="
 				+ autor + "]";
 	}
 	
-	
-
 }

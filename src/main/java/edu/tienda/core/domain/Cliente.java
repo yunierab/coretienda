@@ -1,11 +1,20 @@
 package edu.tienda.core.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Cliente
 {
     private String username;
     private String pasword;
     private String nombre;
 
+    /*
     public Cliente(String username, String pasword, String nombre)
     {
         this.username = username;
@@ -36,4 +45,5 @@ public class Cliente
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    */
 }
