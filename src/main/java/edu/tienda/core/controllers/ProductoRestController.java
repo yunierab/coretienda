@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductoRestController {
 
 	@Autowired
-	@Qualifier("API_EXTERNA")  //inyectamos el servicio por su alias
+	@Qualifier("BaseDatos")  //inyectamos el servicio por su alias
 	private IProductoService productoServices;
 	
 	@Autowired

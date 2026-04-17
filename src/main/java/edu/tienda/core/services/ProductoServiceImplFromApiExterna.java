@@ -13,15 +13,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service("API_EXTERNA") //Le damos un alias al servicio
 @Slf4j  //Añadimos el logger proporcionado por lombok
-public class ProductoServiceImplApiExterna implements IProductoService {
+public class ProductoServiceImplFromApiExterna implements IProductoService {
 	
-	public ProductoServiceImplApiExterna() {
+	public ProductoServiceImplFromApiExterna() {
 		log.info("Llamdada a clase ProductoServiceImplApiExterna");
 	}
 	
 	public List<Producto> getProductos() {
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<List<Producto>> response = restTemplate.exchange("http://localhost:8080/tienda/api/v1/productos/fake-productos",
+		ResponseEntity<List<Producto>> response = restTemplate.exchange("http://localhost:9998/tienda/api/v1/productos/fake-productos",
 				                                                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Producto>>() {});
 		List<Producto> productos = response.getBody();
 		return productos;
