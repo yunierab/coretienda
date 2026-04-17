@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import edu.tienda.core.domain.Producto;
 
-@Service
+@Service("MEMORY") //Le damos un alias al servicio
 public class ProductoServiceImpl implements IProductoService {
 	
 	private List<Producto> productos = new ArrayList<>(Arrays.asList(new Producto(1, "Laptop", 500.0, 150),
