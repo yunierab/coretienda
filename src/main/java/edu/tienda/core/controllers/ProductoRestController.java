@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.tienda.core.configurations.ConfigurationParameters;
-import edu.tienda.core.domain.Cliente;
 import edu.tienda.core.domain.Producto;
 import edu.tienda.core.services.IProductoService;
+import lombok.extern.slf4j.Slf4j;
 
 
 @RestController
 @RequestMapping("/productos")
+@Slf4j
 public class ProductoRestController {
 
 	@Autowired
@@ -30,7 +31,7 @@ public class ProductoRestController {
 	
 	@GetMapping
 	public ResponseEntity<?> getProductos() {
-		//System.out.println(config.toString());
+		log.info(config.toString());
 		List<Producto> productos = productoServices.getProductos();
 		return ResponseEntity.ok(productos);
 	}
