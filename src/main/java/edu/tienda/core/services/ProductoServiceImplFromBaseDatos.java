@@ -28,4 +28,15 @@ public class ProductoServiceImplFromBaseDatos implements IProductoService {
 		return productos;
 	}
 
+	@Override
+	public void saveProducto(Producto producto) {
+		ProductoEntity productoEntity = new ProductoEntity();
+		productoEntity.setId(producto.getId());
+		productoEntity.setNombre(producto.getNombre());
+		productoEntity.setPrecio(producto.getPrecio());
+		productoEntity.setStock(producto.getStock());
+		//Persistencia
+		productoRepository.save(productoEntity);
+	}
+
 }

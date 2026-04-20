@@ -27,4 +27,10 @@ public class ProductoServiceFromJsonImpl implements IProductoService {
 		}
 	}
 
+	@Override
+	public void saveProducto(Producto producto) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -19,4 +19,11 @@ public class ProductoServiceImpl implements IProductoService {
 		return productos;
 	}
 
+
+	@Override
+	public void saveProducto(Producto producto) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -6,6 +6,8 @@ import edu.tienda.core.domain.Producto;
 
 public interface IProductoService {
 	
-	List<Producto> getProductos();
+	public List<Producto> getProductos();
+	public void saveProducto(Producto producto);
+	
 
 }
